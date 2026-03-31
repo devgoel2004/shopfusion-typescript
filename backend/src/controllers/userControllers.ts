@@ -1,32 +1,68 @@
-import {User} from "../models/userModel";
-import { Request, Response, NextFunction } from "express";
-export const registerUser = async(req: Request,res:Response, next: NextFunction)=>{
+import { User } from "../models/userModel";
+import { Request, Response } from "express";
+export const registerUser = async(req: Request, res: Response)=>{
     try {
         const {name, email, password} = req.body;
-        const find = await User.findOne({email: email});
+        console.log(name);
+        const find = await User.findOne({
+            email: email
+        })
         if(find){
-            return res.status(409).send({
-                "message":"User exists",
-                }
-            );
+            return res.status(401).json({
+                success:false,
+                message:"User already registered"
+            });
         }
         const user = await User.create({
             name,
             email,
             password
-        })
-        const jwt_secret = process.env.JWT_SECRET;
-        const expire = process.env.JWT_EXPIRE;
-        const token = user.getJWTToken();
-        res.status(201).json({
-            success: true,
-            user,
-            token,
         });
+        res.status(200).json({
+            success: true,
+            message:"Registered Successfully",
+            user
+        })
     } catch (error) {
+        console.log(error);
         res.status(500).json({
-            message:"Something went wrong",
             error
+        })
+    }
+}
+
+export const loginUser = async(req: Request, res: Response)=>{
+    try {
+        const {email, password} = req.body;
+        if(!email || !password){
+            return res.status(400).json({
+                status: false,
+                message:"Enter email or password",
+            })
+        }
+        const user = await User.findOne({email:email}).select("password");
+        if(!user){
+            return res.status(400).json({
+                status: false,
+                message:"No user found",
+            })
+        }
+        const isPasswordMatch = await user.comparePassword(password);
+        if(!isPasswordMatch){
+            return res.status(400).json({
+                status: false,
+                message:"Invalid credentials",
+            })
+        }
+        return res.status(200).json({
+            status: true,
+            message:"Successfully login",
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: false,
+            message:"Internal server error",
         })
     }
 }
