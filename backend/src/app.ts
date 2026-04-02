@@ -3,7 +3,9 @@ import type{Application, Response, Request} from "express";
 import {config} from "dotenv";
 import { connect_db } from './config/db';
 import userRoute from '../src/routes/userRoute';
+import cookieParser from "cookie-parser";
 config();
+
 const url = process.env.DB_URL;
 const secret = process.env.JWT_SECRET;
 if(url){
@@ -11,6 +13,7 @@ if(url){
 }
 const app: Application = express();
 app.use(express.json());
+app.use(cookieParser());
 app.get('/',(req:Request, res: Response)=>{
     res.send('Hello world');
 })

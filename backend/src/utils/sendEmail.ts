@@ -1,12 +1,11 @@
-import { StringValue } from 'ms';
 import nodeMailer from 'nodemailer';
 interface EmailOptions{
-    service: string;
-    subject: string;
     email: string;
+    service?: string;
+    subject: string;
     message: string;
 }
-const sendEmail = async function(options: EmailOptions){
+export const sendEmail = async function(options: EmailOptions){
     // const service = process.env.APP_HOST || "service";
     const transporter = nodeMailer.createTransport({
         service: process.env.APP_HOST || "gmail", 
