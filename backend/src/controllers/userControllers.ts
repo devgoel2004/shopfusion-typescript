@@ -34,7 +34,6 @@ export const registerUser = async(req: Request, res: Response)=>{
             token,
         })
     } catch (error) {
-        console.log(error);
         res.status(500).json({
             error,
             status:false,
@@ -100,7 +99,6 @@ export const logoutUser = async(req: Request, res: Response)=>{
             message: "Logout successfully"
         })
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             status: false,
             message:"Internal Server error",
@@ -130,7 +128,6 @@ export const forgotPassword = async (req: Request, res: Response) => {
       user.resetPasswordToken = undefined;
       user.resetPasswordExpire = undefined;
       await user.save({ validateBeforeSave: false }); 
-      console.log(error);
       return res.status(500).json({ success: false, message: "Email could not be sent" }); 
     }
   } catch (error) {
@@ -142,14 +139,13 @@ export const resetPassword = async function(req: Request, res: Response){
     try {
         const token = req.params.token as string;
         const {password, confirmPassword} = req.body;
-        console.log(token);
+
         const resetPasswordToken = crypto.createHash('sha256').update(token).digest("hex");
-        console.log(resetPasswordToken);
+
         const user = await User.findOne({
             resetPasswordToken,
             resetPasswordExpire : {$gt: new Date()},
         })
-        console.log(user);
         if(!user){
             return res.status(400).json({
                 status:false,
@@ -171,7 +167,6 @@ export const resetPassword = async function(req: Request, res: Response){
             message:"Password updated successfully"
         })
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             status: false,
             message:"Internal server error",
@@ -238,16 +233,24 @@ export const updatePassword = async(req:Request, res:Response)=>{
     }
 }
 // Update Profile
-export const updateProfile = async(req: Request, res: Response)=>{
+export const updateProfile = async(req: CustomRequest, res: Response)=>{
     try {
+
         const newUserData = {
             name: req.body.name,
             email: req.body.email
         }
-        const token = req.cookies.token as string; 
-        const secret = process.env.JWT_SECRET as string;
-        const decodedData = jwt.verify(token, secret) as jwt.JwtPayload;
-        const user = await User.findByIdAndUpdate(decodedData.id, newUserData);
+        if(newUserData.name===undefined){
+            newUserData.name = req.user?.name;
+        }
+        if(newUserData.email === undefined){
+            newUserData.email = req.user?.email;
+        }
+        const id = req.user?.id;
+        const user = await User.findByIdAndUpdate(
+            id,
+            newUserData,
+        );
         res.status(200).json({
             success:true,
             user,
@@ -302,14 +305,15 @@ export const getSingleUser = async(req: Request, res: Response)=>{
 // Delete User -- Admin
 export const deleteUser = async(req: Request, res: Response)=>{
     try {
-        const user = User.findById(req.params.id);
+        const user = await User.findById(req.params.id);
+
         if(!user){
             return res.status(400).json({
             success: false,
             message:"User does not exists.",
             });
         }
-        await User.deleteOne();
+        await User.deleteOne({id: req.params.id});
         return res.status(200).json({
             success: true,
             message:"Deleted user successfully",
@@ -336,12 +340,13 @@ export const updateUserRole = async(req: Request, res: Response)=>{
         }
         const {name, email} = user;
         const newUserRole = {name,email,role};
-        await User.findByIdAndDelete(req.params.id, newUserRole);
+        await User.findByIdAndUpdate(req.params.id, newUserRole);
         return res.status(200).json({
             success:true,
             message:"Role Updated successfully"
         })
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             success: false,
             message:"Internal server error",

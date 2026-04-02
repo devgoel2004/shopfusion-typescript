@@ -38,21 +38,23 @@ export const isAuthenticatedUser = async (req: CustomRequest, res: Response, nex
 };
 // Check if user has required role
 export const authorizeRole = (...roles: string[]) => {
-    return (req: CustomRequest, res: Response, next: NextFunction) => {
+    return (req: CustomRequest, res: Response, next: NextFunction): void => {
         if (!req.user) {
-            return res.status(401).json({
-                success: false,
+            
+             res.status(401).json({
+                success:false,
                 message: "Please login to access this resource."
             });
+            return;
         }
 
         if (!roles.includes(req.user.role)) {
-            return res.status(403).json({
+            res.status(403).json({
                 success: false,
                 message: `Role '${req.user.role}' is not allowed to access this resource.`
             });
+            return;
         }
-
         next();
     };
 };
