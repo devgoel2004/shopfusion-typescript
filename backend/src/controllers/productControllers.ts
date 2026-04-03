@@ -1,7 +1,9 @@
 import { Product } from "../models/productModel";
-import { Request, Response } from "express";
+import {  Response } from "express";
 import APIFeatures from "../utils/apiFeatures";
-export const getAllProducts = async(req: Request, res:Response)=>{
+import { CustomRequest } from "../types/customRequest";
+export const getAllProducts = async(req: CustomRequest, res:Response)=>{
+
     try {
         const resultPerPage = 8;
         const productCount = await Product.countDocuments();
@@ -29,5 +31,23 @@ export const getAllProducts = async(req: Request, res:Response)=>{
             message:"Internal server error",
             error
         })
+    }
+}
+
+export const createProduct = async(req:CustomRequest,res:Response)=>{
+    try {
+        req.body.user = req.user?.id;
+        const product = await Product.create(req.body);
+        return res.status(200).json({
+            success:true,
+            message:"Product created successfully",
+            product
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:"Internal server error",
+            error
+        })        
     }
 }
