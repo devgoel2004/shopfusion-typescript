@@ -5,8 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import type { StringValue } from "ms";
 import crypto from 'crypto';
-import { NextFunction } from "express";
-import { Schema, model, Document, CallbackWithoutResultAndOptionalError } from "mongoose";
+import { Schema,  Document} from "mongoose";
 
 
 interface IUserMethods {
