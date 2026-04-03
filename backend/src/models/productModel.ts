@@ -1,27 +1,29 @@
-import { Schema, model, Document, CallbackWithoutResultAndOptionalError } from "mongoose";
+import { Document, Types} from "mongoose";
 import mongoose from "mongoose";
 // import Array from 
 interface Image extends Document{
     publicId: string,
     url: string,
 };
-interface Review extends Document{
-    user: string,
+export interface Review{
+  _id?:Types.ObjectId,
+    user: Types.ObjectId,
     name: string,
-    rating: string,
+    rating: number,
     comment: string,
+
 };
 export interface IProduct extends Document{
     name: string,
     description: string,
     price: number,
     ratings: number,
-    images: Array<Image>,
-    category: boolean,
+    images: Image[],
+    category: string,
     Stock: number,
     numOfReviews: number,
-    reviews: Array<Review>,
-    user: string,
+    reviews: Types.DocumentArray<Review & Document>;  // 👈 DocumentArray for subdocuments
+    user: Types.ObjectId,
     createdAt: Date
 };
 const productSchema = new mongoose.Schema({
@@ -77,7 +79,7 @@ const productSchema = new mongoose.Schema({
         required: true,
       },
       rating: {
-        type: String,
+        type: Number,
         required: true,
       },
       comment: {
