@@ -2,12 +2,12 @@ import express from 'express';
 import type{Application, Response, Request} from "express";
 import {config} from "dotenv";
 import { connect_db } from './config/db';
-import userRoute from '../src/routes/userRoute';
+import userRoute from './routes/userRoute';
+import productRoute from './routes/productRoute';
 import cookieParser from "cookie-parser";
 config();
 
 const url = process.env.DB_URL;
-const secret = process.env.JWT_SECRET;
 if(url){
     connect_db(url);
 }
@@ -18,7 +18,8 @@ app.get('/',(req:Request, res: Response)=>{
     res.send('Hello world');
 })
 app.use('/api/v1', userRoute);
-app.get('/products',(req:Request, res: Response)=>{
-    res.send("Product");
-})
+app.use('/api/v1/',productRoute);
+// app.get('/products',(req:Request, res: Response)=>{
+//     res.send("Product");
+// })
 export {app};
