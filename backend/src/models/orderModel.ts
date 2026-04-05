@@ -22,10 +22,10 @@ interface IPayment extends Document{
 interface IOrder extends Document{
     shippingInfo: IShippingInfo,
     orderItems: IOrderItems[],
-    user: Types.ObjectId,
+    user?: Types.ObjectId,
     paymentInfo: IPayment,
     paidAt: Date,
-    itemPrice: number,
+    itemsPrice: number,
     taxPrice: number,
     shippingPrice: number,
     totalPrice: number,
@@ -105,7 +105,7 @@ const orderSchema = new Schema<IOrder>({
     type: Date,
     required: true,
   },
-  itemPrice: {
+  itemsPrice: {
     type: Number,
     required: true,
     default: 0,
