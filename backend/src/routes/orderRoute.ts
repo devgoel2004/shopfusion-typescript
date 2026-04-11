@@ -1,10 +1,11 @@
 import express from 'express';
 import { authorizeRole, isAuthenticatedUser } from '../middleware/authentication';
-import { getAllOrders, getSingleOrder, myOrders, newOrder, updateOrder } from '../controllers/orderControllers';
+import { deleteOrder, getAllOrders, getSingleOrder, myOrders, newOrder, updateOrder } from '../controllers/orderControllers';
 const router = express.Router();
 router.route('/order/new').post(isAuthenticatedUser, newOrder);
 router.route('/order/:id').get(isAuthenticatedUser, authorizeRole('admin'), getSingleOrder);
 router.route('/orders/me').get(isAuthenticatedUser, myOrders);
 router.route('/orders').get(isAuthenticatedUser, authorizeRole('admin'), getAllOrders);
-router.route('/admin/order/:id').put(isAuthenticatedUser, authorizeRole('admin'),updateOrder);
+router.route('/admin/order/:id').put(isAuthenticatedUser, authorizeRole('admin'),updateOrder)
+.delete(isAuthenticatedUser, authorizeRole('admin'), deleteOrder);
 export default router;

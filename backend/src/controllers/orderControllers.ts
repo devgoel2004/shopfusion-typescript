@@ -2,7 +2,7 @@ import { CustomInspectFunction } from "util";
 import { Order } from "../models/orderModel";
 import { Product } from "../models/productModel";
 import { CustomRequest } from "../types/customRequest";
-import { Response, NextFunction } from "express";
+import e, { Response, NextFunction } from "express";
 import mongoose, { overwriteMiddlewareResult } from "mongoose";
 export const newOrder = async(req:CustomRequest, res:Response)=>{
     try {
@@ -151,3 +151,27 @@ export const updateOrder = async (req: CustomRequest, res: Response, next: NextF
         });
     }
 };
+
+// Delete Order -- Admin
+export const deleteOrder = async(req: CustomRequest, res: Response, next: NextFunction)=>{
+    try {
+        const order = await Order.findById(req.params.id);
+        if(!order){
+            return res.status(404).json({
+                success:false,
+                message:"Order not found"
+            })
+        }
+        await Order.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            success:true,
+            message:"Order deleted successfully"
+        })
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            message:"Internal server error",
+            error
+        })
+    }
+}
