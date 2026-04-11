@@ -20,7 +20,7 @@ export interface IProduct extends Document{
     ratings: number,
     images: Image[],
     category: string,
-    Stock: number,
+    stock: number,
     numOfReviews: number,
     reviews: Types.DocumentArray<Review & Document>;  // 👈 DocumentArray for subdocuments
     user: Types.ObjectId,
