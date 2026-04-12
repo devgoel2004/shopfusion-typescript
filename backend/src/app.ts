@@ -5,6 +5,7 @@ import { connect_db } from './config/db';
 import userRoute from './routes/userRoute';
 import productRoute from './routes/productRoute';
 import orderRoute from './routes/orderRoute';
+import paymentRoute from './routes/paymentRoute';
 import cookieParser from "cookie-parser";
 config();
 
@@ -21,6 +22,7 @@ app.get('/',(req:Request, res: Response)=>{
 app.use('/api/v1', userRoute);
 app.use('/api/v1',productRoute);
 app.use('/api/v1',orderRoute);
+app.use('/api/v1',paymentRoute);
 // app.get('/products',(req:Request, res: Response)=>{
 //     res.send("Product");
 // })
