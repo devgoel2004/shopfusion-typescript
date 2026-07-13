@@ -1,0 +1,187 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.Header-section-1 {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  color: gray;
+  margin-top: 7px;
+  align-items: center;
+  height: 48px;
+}
+a {
+  cursor: pointer;
+}
+#bar-icon {
+  display: none;
+}
+.speedDial {
+  position: fixed;
+  right: 1vmax;
+  top: 5vmax;
+}
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
+}
+.heading > a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+.Header-section-1 > div > a > b {
+  font-size: 1.5rem;
+  color: black;
+  font-family: "Montserrat";
+}
+.Header-section-1 > a > .heading {
+  padding-left: 12px;
+}
+.Header-section-1 > .searchbox {
+  width: 20rem;
+}
+.Header-section-1 > .searchbox > input {
+  border: 1px solid (0, 0, 0, 0.5);
+  width: 80%;
+}
+.Header-section-1 > div > a > img {
+  width: 1.5em;
+  height: 1.5em;
+  padding-right: 5px;
+}
+.Header-section-1 > .icons > a {
+  padding-left: 5px;
+  color: gray;
+}
+button {
+  border: none;
+  background-color: white;
+}
+ul {
+  list-style: none;
+  display: flex;
+}
+ul > li {
+  font-size: 0.5rem;
+  padding-left: 5px;
+  padding-right: 2px;
+}
+/* Header section 2 */
+.Header-section-2 {
+  background-color: black;
+  color: white;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Header-section-2 > .Categories {
+  border: 1px solid white;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+.Header-section-2 > .Categories > span {
+  font-size: small;
+  margin: 20px;
+}
+.Header-section-2 > .Categories > span > i {
+  font-size: small;
+  margin: 5px;
+}
+.Header-section-2 > .Categories > span > a {
+  color: white;
+  text-decoration: none;
+}
+.searchbox > form {
+  display: flex;
+  justify-content: center;
+}
+.searchbox > form > button {
+  margin-left: 4px;
+}
+@media (max-width: 768px) {
+  .Header-section-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .Header-section-1 > .searchbox {
+    width: 15rem;
+  }
+  .Header-section-1 > .heading {
+    display: flex;
+    align-items: center;
+  }
+  #bar-icon {
+    display: block;
+    padding-right: 5px;
+  }
+
+  .Header-section-1 > .searchbox {
+    display: flex;
+    justify-content: center;
+  }
+  .Header-section-1 > .list {
+    display: none;
+  }
+  .Header-section-1 > .searchbox > input {
+    width: 80%;
+  }
+
+  .Header-section-1 > ul {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 12px;
+  }
+  .Header-section-3 {
+    display: none;
+  }
+  .Header-section-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    padding: 5px;
+  }
+  .Header-section-2 > .Categories {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    border: none;
+  }
+  #hide {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .Header-section-1 {
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .Header-section-1 > .heading > b {
+    font-size: 1.2rem;
+  }
+  .Header-section-1 > .icons {
+    display: none;
+  }
+  .Header-section-1 > .searchbox > input {
+    display: none;
+  }
+  .Header-section-2 > .Categories > span {
+    margin: 5px 0;
+  }
+  .searchbox > form {
+    display: flex;
+    justify-content: space-around;
+  }
+  .searchbox > form > input {
+    width: 85%;
+    padding: 2px;
+  }
+}
